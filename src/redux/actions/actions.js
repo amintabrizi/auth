@@ -18,6 +18,23 @@ export const increment = () => ({
   type: types.ADD_COUNT,
 })
 
+export const setOrders = (data) => ({
+  type: types.SET_ORDERS,
+  data: data
+})
+
+export const getOrders = (token) => (dispatch) => {
+  setTimeout(() => {
+    axios.get(`https://burger-84d80-default-rtdb.firebaseio.com/orders.json?auth=` + token)
+      .then(response => {
+        dispatch(setOrders(response.data))
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }, 1000);
+}
+
 export const authStart = () => ({
   type: types.AUTH_START,
 })
