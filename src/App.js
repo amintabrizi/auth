@@ -5,15 +5,19 @@ import {
   Route,
   Link
 } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Dashboard from "./containers/Dashboard";
 import Home from "./containers/Home";
 import SignIn from "./containers/SignIn";
 import SignUp from "./containers/SignUp";
+import Orders from "./containers/Orders";
 
 function App() {
+  const login = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
+
   return (
     <Router>
       <div>
@@ -22,9 +26,26 @@ function App() {
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div className="navbar-nav">
                 <Link className="nav-item nav-link active" to="/">Home</Link>
-                <Link className="nav-item nav-link" to="/signup">signup</Link>
-                <Link className="nav-item nav-link" to="/signin">signin</Link>
-                <Link className="nav-item nav-link" to="/dashboard">dashboard</Link>
+                {!login
+                  ?
+                  <>
+                    <Link className="nav-item nav-link" to="/signin">signin</Link>
+                    <Link className="nav-item nav-link" to="/signup">signup</Link>
+                  </>
+                  :
+                  ''
+                }
+
+
+                {login
+                  ?
+                  <>
+                    <Link className="nav-item nav-link" to="/dashboard">dashboard</Link>
+                    <Link className="nav-item nav-link" to="/orders">orders</Link>
+                  </>
+                  :
+                  ''
+                }
               </div>
             </div>
           </div>
@@ -41,6 +62,9 @@ function App() {
           </Route>
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path="/orders">
+            <Orders />
           </Route>
           <Route path="/">
             <Home />
