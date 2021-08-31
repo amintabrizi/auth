@@ -13,6 +13,7 @@ import Home from "./containers/Home";
 import SignIn from "./containers/SignIn";
 import SignUp from "./containers/SignUp";
 import Orders from "./containers/Orders";
+import SignOut from "./containers/SignOut";
 
 function App() {
   const login = useSelector((state) => state.auth.token);
@@ -23,20 +24,9 @@ function App() {
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container">
-            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="collapse navbar-collapse d-flex justify-content-between" id="navbarNavAltMarkup">
               <div className="navbar-nav">
                 <Link className="nav-item nav-link active" to="/">Home</Link>
-                {!login
-                  ?
-                  <>
-                    <Link className="nav-item nav-link" to="/signin">signin</Link>
-                    <Link className="nav-item nav-link" to="/signup">signup</Link>
-                  </>
-                  :
-                  ''
-                }
-
-
                 {login
                   ?
                   <>
@@ -45,6 +35,17 @@ function App() {
                   </>
                   :
                   ''
+                }
+              </div>
+              <div className="right-nav d-flex">
+                {login
+                  ?
+                  <Link className="nav-item nav-link text-white" to="/signout">SignOut</Link>
+                  :
+                  <>
+                    <Link className="nav-item nav-link text-white" to="/signin">Signin</Link>
+                    <Link className="nav-item nav-link text-white" to="/signup">Signup</Link>
+                  </>
                 }
               </div>
             </div>
@@ -66,12 +67,15 @@ function App() {
           <Route path="/orders">
             <Orders />
           </Route>
+          <Route path="/signout">
+            <SignOut />
+          </Route>
           <Route path="/">
             <Home />
           </Route>
         </Switch>
       </div>
-    </Router>
+    </Router >
   );
 }
 

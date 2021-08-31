@@ -1,6 +1,5 @@
 import * as types from './../types/types';
 import axios from 'axios';
-
 //receive data for pagination
 // export const getjobsAction = () => (dispatch) => {
 //   setTimeout(() => {
@@ -83,6 +82,7 @@ export const signUp = (email, password) => {
 }
 
 export const signIn = (email, password) => {
+
   return dispatch => {
     dispatch(authStart());
     const authData = {

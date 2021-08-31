@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { signIn } from './../redux/actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 function SignIn() {
 
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  console.log(auth);
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -15,8 +18,14 @@ function SignIn() {
     dispatch(signIn(email, password));
   }
 
+  let redirect = null;
+  if (auth.token) {
+    redirect = <Redirect to="/" />
+  }
+
   return (
     <div>
+      {redirect}
       <div className="container">
         <div className="d-flex justify-content-center align-items-center my-5">
           <div className="form-wrapper">
