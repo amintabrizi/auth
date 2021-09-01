@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { authCheckState } from './redux/actions/actions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Dashboard from "./containers/Dashboard";
@@ -18,6 +19,10 @@ import SignOut from "./containers/SignOut";
 function App() {
   const login = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(authCheckState());
+  }, [dispatch])
 
   return (
     <Router>

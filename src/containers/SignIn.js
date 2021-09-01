@@ -8,8 +8,6 @@ function SignIn() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  console.log(auth);
-
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
