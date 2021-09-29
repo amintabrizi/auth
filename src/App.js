@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authCheckState } from './redux/actions/actions';
@@ -24,6 +25,68 @@ function App() {
     dispatch(authCheckState());
   }, [dispatch])
 
+  let rightNav = <Link className="nav-item nav-link active" to="/">Home</Link>;
+  let leftNav = null;
+
+  let routes = (
+    <>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Redirect to="/" />
+    </>
+  )
+
+
+  if (login) {
+    rightNav = (
+      <>
+        <Link className="nav-item nav-link active" to="/">Home</Link>
+        <Link className="nav-item nav-link" to="/dashboard">dashboard</Link>
+        <Link className="nav-item nav-link" to="/orders">orders</Link>
+      </>
+    );
+    leftNav = <Link className="nav-item nav-link text-white" to="/signout">SignOut</Link>
+    routes = (
+      <>
+        <Route path="/dashboard">
+          <Dashboard />
+        </Route>
+        <Route path="/orders">
+          <Orders />
+        </Route>
+        <Route path="/signout">
+          <SignOut />
+        </Route>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Redirect to="/" />
+      </>
+    )
+  } else {
+    leftNav = (
+      <>
+        <Link className="nav-item nav-link text-white" to="/signin">Signin</Link>
+        <Link className="nav-item nav-link text-white" to="/signup">Signup</Link>
+      </>
+    )
+    routes = (
+      <>
+        <Route path="/signin">
+          <SignIn />
+        </Route>
+        <Route path="/signup">
+          <SignUp />
+        </Route>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Redirect to="/" />
+      </>
+    )
+  }
+
   return (
     <Router>
       <div>
@@ -31,27 +94,10 @@ function App() {
           <div className="container">
             <div className="collapse navbar-collapse d-flex justify-content-between" id="navbarNavAltMarkup">
               <div className="navbar-nav">
-                <Link className="nav-item nav-link active" to="/">Home</Link>
-                {login
-                  ?
-                  <>
-                    <Link className="nav-item nav-link" to="/dashboard">dashboard</Link>
-                    <Link className="nav-item nav-link" to="/orders">orders</Link>
-                  </>
-                  :
-                  ''
-                }
+                {rightNav}
               </div>
               <div className="right-nav d-flex">
-                {login
-                  ?
-                  <Link className="nav-item nav-link text-white" to="/signout">SignOut</Link>
-                  :
-                  <>
-                    <Link className="nav-item nav-link text-white" to="/signin">Signin</Link>
-                    <Link className="nav-item nav-link text-white" to="/signup">Signup</Link>
-                  </>
-                }
+                {leftNav}
               </div>
             </div>
           </div>
@@ -60,24 +106,7 @@ function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/signin">
-            <SignIn />
-          </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
-          <Route path="/orders">
-            <Orders />
-          </Route>
-          <Route path="/signout">
-            <SignOut />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+          {routes}
         </Switch>
       </div>
     </Router >
